@@ -9,7 +9,9 @@ BEGIN
     SELECT d.guid
          , d.description
          , d.id_file IS NOT NULL AS has_file 
-      FROM diagnostico d;
+      FROM diagnostico d
+	 ORDER BY d.id ASC
+	;
 END
 $func$ LANGUAGE plpgsql;
 
