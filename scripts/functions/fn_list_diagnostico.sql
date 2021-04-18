@@ -1,5 +1,5 @@
-DROP FUNCTION IF EXISTS list_diagnostico;
-CREATE OR REPLACE FUNCTION list_diagnostico()
+DROP FUNCTION IF EXISTS fn_list_diagnostico;
+CREATE OR REPLACE FUNCTION fn_list_diagnostico()
   RETURNS TABLE (guid uuid   -- also visible as OUT parameter inside function
                , description VARCHAR
                , has_file boolean
