@@ -1,11 +1,11 @@
 /*
-do $$ DECLARE p_success BOOLEAN := false; begin
-CALL sp_user_verification(p_verification_guid, p_success);
-RAISE NOTICE '%', CAST(p_success AS TEXT);
+do $$ DECLARE o_success BOOLEAN := false; begin
+CALL sp_user_verification(i_verification_guid, o_success);
+RAISE NOTICE '%', CAST(o_success AS TEXT);
 END; $$
 */
 DROP PROCEDURE IF EXISTS sp_user_verification;
-CREATE OR REPLACE PROCEDURE sp_user_verification(p_verification_guid uuid, INOUT p_success BOOLEAN)
+CREATE OR REPLACE PROCEDURE sp_user_verification(i_verification_guid uuid, INOUT o_success BOOLEAN)
 LANGUAGE plpgsql
 AS $$
   DECLARE v_user_to_verify INT := null;
@@ -15,7 +15,7 @@ BEGIN
 -- Your email address could not be verified.
 	SELECT id INTO v_user_to_verify
 	  FROM user_
-	 WHERE verification_guid = p_verification_guid
+	 WHERE verification_guid = i_verification_guid
 	   AND verified = false
 	;
 	--
@@ -24,11 +24,11 @@ BEGIN
 	      SET verified = true
 		WHERE id = v_user_to_verify
 	   ;
-		p_success := true;
+		o_success := true;
 	END IF;
 	--
 	IF (v_user_to_verify IS NULL) THEN
-		p_success := false;
+		o_success := false;
 	END IF;
 --
 END;

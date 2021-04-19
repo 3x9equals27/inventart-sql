@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE sp_does_nothing(p_varname integer)
+CREATE OR REPLACE PROCEDURE sp_does_nothing(i_varname integer)
 LANGUAGE SQL
 AS $$
 --

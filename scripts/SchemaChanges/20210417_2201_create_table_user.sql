@@ -11,7 +11,7 @@ IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN
 	, created TIMESTAMPTZ NOT NULL DEFAULT NOW()
 	, updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 	, email VARCHAR NOT NULL UNIQUE
-	, password VARCHAR NOT NULL
+	, password_hash VARCHAR NOT NULL
 	, verified BOOLEAN NOT NULL DEFAULT false
 	, verification_guid uuid DEFAULT uuid_generate_v4()
 	);
