@@ -18,7 +18,7 @@ select r.name into v_role
    and utr.id_tenant = v_id_tenant
  ;
 --
-return v_role;
+return coalesce(v_role,'role:guest');
 --
 end;
 $$;

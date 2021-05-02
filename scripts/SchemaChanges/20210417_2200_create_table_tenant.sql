@@ -13,6 +13,7 @@ IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN
 	, code VARCHAR NOT NULL UNIQUE
 	, short_name VARCHAR NOT NULL
 	, long_name VARCHAR NOT NULL
+	, public BOOLEAN NOT NULL
 	);
     
     INSERT INTO _provision(script_name) VALUES(v_script_name);
