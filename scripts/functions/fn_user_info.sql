@@ -4,7 +4,11 @@ language plpgsql
 AS $$
 begin
 return query
-SELECT u.email, u.first_name, u.last_name, u.default_tenant, coalesce(r.name,'role:guest') as default_tenant_role
+SELECT u.email
+     , u.first_name
+     , u.last_name
+     , u.default_tenant
+     , coalesce(r.name,case when u.is_guest_user then 'role:guest' else 'role:visitor' end) as default_tenant_role
   FROM user_ as u
   left join tenant t on t.code = u.default_tenant
   left join user_tenant_role utr on utr.id_user = u.id and utr.id_tenant = t.id

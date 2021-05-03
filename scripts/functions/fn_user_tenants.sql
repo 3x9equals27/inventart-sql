@@ -5,7 +5,7 @@ AS $$
 begin
 return query
 select t.code, t.short_name, t.long_name
-     , coalesce(r.name,'role:guest') as role
+     , coalesce(r.name,case when u.is_guest_user then 'role:guest' else 'role:visitor' end) as role
   from tenant t
   left join user_tenant_role utr
   	inner join user_ u on u.id = utr.id_user and u.guid = i_guid

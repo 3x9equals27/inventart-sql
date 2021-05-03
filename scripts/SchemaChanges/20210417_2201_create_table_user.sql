@@ -10,6 +10,7 @@ IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN
 	, guid uuid DEFAULT uuid_generate_v4()
 	, created TIMESTAMPTZ NOT NULL DEFAULT NOW()
 	, updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
+	, is_guest_user BOOLEAN NOT NULL DEFAULT false
 	, email VARCHAR NOT NULL UNIQUE
 	, first_name VARCHAR NOT NULL
 	, last_name VARCHAR NOT NULL

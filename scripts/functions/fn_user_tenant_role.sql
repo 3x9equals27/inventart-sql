@@ -6,10 +6,18 @@ AS $$
 DECLARE v_id_user INT := null;
 DECLARE v_id_tenant INT := null;
 DECLARE v_role VARCHAR := null;
+DECLARE v_is_guest_user boolean := false;
 begin
 --
-select id into v_id_user from user_ where guid = i_user_guid;
-select id into v_id_tenant from tenant where code = i_tenant_code;
+select id, is_guest_user
+  into v_id_user, v_is_guest_user
+  from user_ 
+ where guid = i_user_guid
+ ;
+select id 
+  into v_id_tenant 
+  from tenant 
+ where code = i_tenant_code;
 --
 select r.name into v_role
   from user_tenant_role as utr
@@ -18,7 +26,7 @@ select r.name into v_role
    and utr.id_tenant = v_id_tenant
  ;
 --
-return coalesce(v_role,'role:guest');
+return coalesce(v_role, case when v_is_guest_user then 'role:guest' else 'role:visitor' end);
 --
 end;
 $$;
