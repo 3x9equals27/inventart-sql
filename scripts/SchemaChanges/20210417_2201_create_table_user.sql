@@ -14,7 +14,7 @@ IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN
 	, email VARCHAR NOT NULL UNIQUE
 	, first_name VARCHAR NOT NULL
 	, last_name VARCHAR NOT NULL
-	, default_tenant VARCHAR NOT NULL
+	, default_tenant VARCHAR NULL
 	, password_hash VARCHAR NOT NULL
 	, verified BOOLEAN NOT NULL DEFAULT false
 	, verification_guid uuid DEFAULT uuid_generate_v4()
