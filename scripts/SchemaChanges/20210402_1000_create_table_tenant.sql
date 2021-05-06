@@ -1,5 +1,5 @@
 DO $$
-DECLARE v_script_name VARCHAR := '20210417_2200_create_table_tenant.sql';
+DECLARE v_script_name VARCHAR := '20210402_1000_create_table_tenant.sql';
 BEGIN
 --
 IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN

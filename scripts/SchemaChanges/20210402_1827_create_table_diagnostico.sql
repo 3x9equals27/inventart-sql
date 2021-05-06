@@ -7,6 +7,8 @@ IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN
 	-- DROP TABLE diagnostico
 	CREATE TABLE diagnostico(
 	  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY
+	, id_tenant INT NOT NULL
+	, FOREIGN KEY(id_tenant) REFERENCES tenant(id)
 	, guid uuid DEFAULT uuid_generate_v4()
 	, created TIMESTAMPTZ NOT NULL DEFAULT NOW()
 	, updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
