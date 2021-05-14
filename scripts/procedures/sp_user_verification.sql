@@ -22,6 +22,7 @@ BEGIN
 	IF (v_user_to_verify IS NOT NULL) THEN
 	   UPDATE user_
 	      SET verified = true
+		    , verification_guid = null
 		WHERE id = v_user_to_verify
 	   ;
 		o_success := true;

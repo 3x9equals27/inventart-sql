@@ -18,6 +18,8 @@ IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN
 	, password_hash VARCHAR NOT NULL
 	, verified BOOLEAN NOT NULL DEFAULT false
 	, verification_guid uuid DEFAULT uuid_generate_v4()
+	, password_reset_guid uuid NULL
+	, password_reset_guid_date TIMESTAMPTZ NULL
 	);
     
     INSERT INTO _provision(script_name) VALUES(v_script_name);
