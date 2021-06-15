@@ -4,6 +4,7 @@ language plpgsql
 AS $$
 begin
 return query
+--
 select t.code, t.short_name, t.long_name
      , coalesce(r.name,case when u.is_guest_user then 'role:guest' else 'role:visitor' end) as role
   from tenant t

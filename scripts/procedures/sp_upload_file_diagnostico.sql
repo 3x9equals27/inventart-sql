@@ -24,7 +24,7 @@ BEGIN
     END IF;
     --
     IF (v_id_file IS NULL) THEN
-        INSERT INTO file(name,bytes) VALUES(i_name,i_bytes) RETURNING id, guid INTO v_id_file, o_file_guid;
+        INSERT INTO file(name,bytes,id_tenant) VALUES(i_name,i_bytes,1) RETURNING id, guid INTO v_id_file, o_file_guid;
         UPDATE diagnostico
            SET id_file = v_id_file
          WHERE id = v_id_diagnostico
