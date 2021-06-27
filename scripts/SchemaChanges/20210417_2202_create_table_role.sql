@@ -10,7 +10,7 @@ IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN
 	, guid uuid DEFAULT uuid_generate_v4()
 	, created TIMESTAMPTZ NOT NULL DEFAULT NOW()
 	, updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
-	, name VARCHAR NOT NULL
+	, name VARCHAR NOT NULL UNIQUE
 	);
     
     INSERT INTO _provision(script_name) VALUES(v_script_name);
