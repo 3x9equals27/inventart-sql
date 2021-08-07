@@ -12,8 +12,8 @@ select t.code, t.short_name, t.long_name
   	inner join user_ u on u.id = utr.id_user and u.guid = i_guid
   	inner join role r on r.id = utr.id_role
   	on utr.id_tenant = t.id
- where u.id is not null
-    or t.public = true
+ where (u.id is not null or t.public = true)
+   and coalesce(r.name,'') != 'role:disabled'
  order by u.default_tenant = t.code
         , r.name is null
         , t.short_name
