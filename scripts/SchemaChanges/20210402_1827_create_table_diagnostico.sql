@@ -1,24 +1,16 @@
-DO $$
-DECLARE v_script_name VARCHAR := '20210328_2220_create_table_diagnostico.sql';
-BEGIN
+DECLARE @v_script_name NVARCHAR(200) =  '20210328_2220_create_table_diagnostico.sql';
 --
-IF NOT EXISTS (SELECT FROM _provision WHERE script_name = v_script_name) THEN
-
+IF (NOT EXISTS (SELECT 1 FROM _provision WHERE script_name = @v_script_name)) BEGIN
 	-- DROP TABLE diagnostico
 	CREATE TABLE diagnostico(
-	  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY
-	, id_tenant INT NOT NULL
-	, FOREIGN KEY(id_tenant) REFERENCES tenant(id)
-	, guid uuid DEFAULT uuid_generate_v4()
-	, created TIMESTAMPTZ NOT NULL DEFAULT NOW()
-	, updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
-	, description VARCHAR
-	, id_file INT
-	, FOREIGN KEY(id_file) REFERENCES file(id)
+	  id INT NOT NULL IDENTITY PRIMARY KEY
+	, id_tenant INT NOT NULL FOREIGN KEY REFERENCES tenant(id)
+	, guid UNIQUEIDENTIFIER DEFAULT NEWID()
+	, created DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+	, updated DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+	, description NVARCHAR(200)
+	, id_file INT NULL FOREIGN KEY REFERENCES [file](id)
 	);
-    
-    INSERT INTO _provision(script_name) VALUES(v_script_name);
-END IF;
 --    
+    INSERT INTO _provision(script_name) VALUES(@v_script_name);
 END;
-$$ LANGUAGE plpgsql;

@@ -1,27 +1,17 @@
-/*
-do $$ 
-DECLARE i_password_reset_guid uuid := null;
-DECLARE i_password_hash VARCHAR := null;
-DECLARE o_success BOOLEAN := false;
-begin
-CALL sp_auth_password_reset_step2b(i_password_reset_guid, i_password_hash, o_success);
-RAISE NOTICE '%', CAST(o_success AS TEXT);
-end; $$
-*/
-DROP PROCEDURE IF EXISTS sp_auth_password_reset_step2b;
-CREATE OR REPLACE PROCEDURE sp_auth_password_reset_step2b(i_password_reset_guid uuid, i_password_hash VARCHAR, INOUT o_success boolean)
-LANGUAGE plpgsql
-AS $$
+--
+CREATE OR ALTER PROCEDURE sp_auth_password_reset_step2b(@i_password_reset_guid UNIQUEIDENTIFIER, @i_password_hash NVARCHAR(MAX), @o_success BIT OUTPUT)
+AS
 BEGIN
 --
-	o_success := false;
+	SET @o_success = 0;
 	--
    UPDATE user_
 	  SET password_reset_guid = null
-	    , password_hash = i_password_hash
-	WHERE password_reset_guid = i_password_reset_guid
-	RETURNING true INTO o_success
-   ;
+	    , password_hash = @i_password_hash
+    WHERE password_reset_guid = @i_password_reset_guid
+	;
+	--
+	IF @@ROWCOUNT > 0
+	SET @o_success = 1;
 --
 END;
-$$;

@@ -1,16 +1,14 @@
-DO $$
-DECLARE v_script_name VARCHAR := '00000000_0001_provision_table.sql';
-BEGIN
+DECLARE @v_script_name NVARCHAR(200) = '00000000_0001_provision_table.sql';
 --
-IF to_regclass('public._provision') IS NULL THEN
+IF (NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_CATALOG = DB_NAME() AND TABLE_SCHEMA = SCHEMA_NAME() 
+				   AND TABLE_NAME = '_provision')
+				 ) BEGIN
 	-- DROP TABLE _provision;
 	CREATE TABLE _provision(
-	  script_name VARCHAR PRIMARY KEY
-	, provisioned TIMESTAMPTZ NOT NULL DEFAULT NOW()
+	  script_name NVARCHAR(200) PRIMARY KEY
+	, provisioned DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 	);
 	
-	INSERT INTO _provision(script_name) VALUES(v_script_name);
-END IF;
---    
-END;
-$$ LANGUAGE plpgsql;
+	INSERT INTO _provision(script_name) VALUES(@v_script_name);
+END
