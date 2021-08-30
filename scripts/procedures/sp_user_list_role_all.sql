@@ -1,24 +1,16 @@
--- select * from fn_user_list_role_all(i_tenant_code)
--- select * from fn_user_list_role_all('FBAUL')
-DROP FUNCTION IF EXISTS fn_user_list_role_all;
-CREATE OR REPLACE FUNCTION fn_user_list_role_all(i_tenant_code VARCHAR) RETURNS TABLE(guid uuid, email VARCHAR, first_name VARCHAR, last_name VARCHAR, role VARCHAR, is_guest_user boolean)
-LANGUAGE plpgsql
-AS $$
-DECLARE v_id_tenant INT := null;
-DECLARE v_id_role_visitor INT := null;
+CREATE OR ALTER PROCEDURE sp_user_list_role_all(@i_tenant_code NVARCHAR(10))
+AS
+DECLARE @v_id_tenant INT = null;
+DECLARE @v_id_role_visitor INT = null;
 begin
 --
-select id 
-  into v_id_tenant 
+select @v_id_tenant = id 
   from tenant 
- where code = i_tenant_code;
+ where code = @i_tenant_code;
 --	
-select id 
-  into v_id_role_visitor 
+select @v_id_role_visitor = id 
   from role 
  where name = 'role:visitor';
---
-return query
 --
 SELECT u.guid
      , u.email 
@@ -27,12 +19,12 @@ SELECT u.guid
      , r.name as role
      , u.is_guest_user 
   FROM user_ u
-  left join user_tenant_role utr on utr.id_user = u.id and utr.id_tenant = v_id_tenant
- inner join role r on r.id = coalesce(utr.id_role,v_id_role_visitor)
- WHERE u.verified = true
- ORDER BY u.is_guest_user = false asc
+  left join user_tenant_role utr on utr.id_user = u.id and utr.id_tenant = @v_id_tenant
+ inner join role r on r.id = coalesce(utr.id_role,@v_id_role_visitor)
+ WHERE u.verified = 1
+ ORDER BY CASE WHEN u.is_guest_user = 0 THEN 1 ELSE 0 END asc
         , u.first_name
         , u.last_name 
  ;
-end;
-$$;
+--
+end

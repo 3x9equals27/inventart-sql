@@ -1,36 +1,27 @@
-/*
-do $$ DECLARE o_success BOOLEAN := false; begin
-CALL sp_user_verification(i_verification_guid, o_success);
-RAISE NOTICE '%', CAST(o_success AS TEXT);
-END; $$
-*/
-DROP PROCEDURE IF EXISTS sp_user_verification;
-CREATE OR REPLACE PROCEDURE sp_user_verification(i_verification_guid uuid, INOUT o_success BOOLEAN)
-LANGUAGE plpgsql
-AS $$
-  DECLARE v_user_to_verify INT := null;
+CREATE OR ALTER PROCEDURE sp_user_verification(@i_verification_guid UNIQUEIDENTIFIER, @o_success BIT OUTPUT)
+AS
+  DECLARE @v_user_to_verify INT = null;
 BEGIN
 --
 -- unverified user with provided verification_guid
 -- Your email address could not be verified.
-	SELECT id INTO v_user_to_verify
+	SELECT TOP 1 @v_user_to_verify = id
 	  FROM user_
-	 WHERE verification_guid = i_verification_guid
-	   AND verified = false
+	 WHERE verification_guid = @i_verification_guid
+	   AND verified = 0
 	;
 	--
-	IF (v_user_to_verify IS NOT NULL) THEN
+	IF (@v_user_to_verify IS NOT NULL) BEGIN
 	   UPDATE user_
-	      SET verified = true
+	      SET verified = 1
 		    , verification_guid = null
-		WHERE id = v_user_to_verify
+		WHERE id = @v_user_to_verify
 	   ;
-		o_success := true;
-	END IF;
+		SET @o_success = 1;
+	END;
 	--
-	IF (v_user_to_verify IS NULL) THEN
-		o_success := false;
-	END IF;
+	IF (@v_user_to_verify IS NULL) BEGIN
+		SET @o_success = 0;
+	END;
 --
 END;
-$$;

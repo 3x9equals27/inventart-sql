@@ -9,7 +9,7 @@ IF (NOT EXISTS (SELECT 1 FROM _provision WHERE script_name = @v_script_name)) BE
 	, created DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 	, updated DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 	, name NVARCHAR(200)
-	, bytes BIT NOT NULL
+	, bytes VARBINARY(max) NOT NULL
 	);
 --    
     INSERT INTO _provision(script_name) VALUES(@v_script_name);

@@ -1,6 +1,12 @@
-DROP TRIGGER IF EXISTS but_diagnostico ON public.diagnostico;
-
-CREATE TRIGGER but_diagnostico
-BEFORE UPDATE ON diagnostico
-FOR EACH ROW
-EXECUTE PROCEDURE fn_trigger_set_timestamp();
+CREATE OR ALTER TRIGGER TRG_AIU_DIAGNOSTICO
+ON [diagnostico]
+AFTER INSERT, UPDATE
+AS
+BEGIN
+--
+UPDATE D
+   SET D.updated = SYSUTCDATETIME()
+  FROM INSERTED I
+ INNER JOIN diagnostico D ON D.id = I.id
+--
+END
