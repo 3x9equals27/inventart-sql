@@ -2,7 +2,7 @@ CREATE OR ALTER PROCEDURE sp_user_tenant_role(@i_user_guid UNIQUEIDENTIFIER, @i_
 AS
 DECLARE @v_id_user INT = null;
 DECLARE @v_id_tenant INT = null;
-DECLARE @v_role VARCHAR = null;
+DECLARE @v_role NVARCHAR(50) = null;
 DECLARE @v_is_guest_user BIT = 0;
 begin
 --
