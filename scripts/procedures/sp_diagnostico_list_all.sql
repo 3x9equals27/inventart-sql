@@ -3,7 +3,7 @@ AS
 BEGIN
     SELECT d.guid
          , d.description
-         , CASE WHEN d.id_file IS NOT NULL THEN 0 ELSE 1 END AS has_file
+         , CASE WHEN d.id_file IS NULL THEN 0 ELSE 1 END AS has_file
          , f.guid AS file_guid
       FROM diagnostico d
 	 INNER JOIN tenant t on t.id = d.id_tenant
