@@ -9,6 +9,6 @@ BEGIN
 	 INNER JOIN tenant t on t.id = d.id_tenant
       LEFT JOIN [file] f ON f.id = d.id_file
 	 WHERE t.code = @i_tenant
-	 ORDER BY d.id ASC
+	 ORDER BY d.id DESC
 	;
 END
