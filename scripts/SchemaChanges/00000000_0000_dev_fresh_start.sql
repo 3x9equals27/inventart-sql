@@ -1,11 +1,11 @@
 DROP TABLE IF EXISTS _provision;
-DROP TABLE IF EXISTS diagnostico;
+DROP TABLE IF EXISTS painting;
 DROP TABLE IF EXISTS [file];
 DROP TABLE IF EXISTS user_tenant_role;
 DROP TABLE IF EXISTS tenant;
 DROP TABLE IF EXISTS user_;
 DROP TABLE IF EXISTS role;
-DROP PROCEDURE IF exists sp_diagnostico_list_all;
+DROP PROCEDURE IF exists sp_painting_list_all;
 DROP PROCEDURE IF exists sp_trigger_set_timestamp;
 DROP PROCEDURE IF exists sp_user_for_login;
 DROP PROCEDURE IF exists sp_user_info;

@@ -1,8 +1,8 @@
-DECLARE @v_script_name NVARCHAR(200) =  '20210328_2220_create_table_diagnostico.sql';
+DECLARE @v_script_name NVARCHAR(200) =  '20210328_2220_create_table_painting.sql';
 --
 IF (NOT EXISTS (SELECT 1 FROM _provision WHERE script_name = @v_script_name)) BEGIN
-	-- DROP TABLE diagnostico
-	CREATE TABLE diagnostico(
+	-- DROP TABLE painting
+	CREATE TABLE painting(
 	  id INT NOT NULL IDENTITY PRIMARY KEY
 	, id_tenant INT NOT NULL FOREIGN KEY REFERENCES tenant(id)
 	, guid UNIQUEIDENTIFIER DEFAULT NEWID()

@@ -1,17 +1,17 @@
 -- WIP: Tenant in INSERT id hardcoded
-CREATE OR ALTER PROCEDURE sp_upload_file_diagnostico(@i_guid UNIQUEIDENTIFIER, @i_name NVARCHAR(200), @i_bytes VARBINARY(max), @o_file_guid UNIQUEIDENTIFIER OUTPUT)
+CREATE OR ALTER PROCEDURE sp_upload_file_painting(@i_guid UNIQUEIDENTIFIER, @i_name NVARCHAR(200), @i_bytes VARBINARY(max), @o_file_guid UNIQUEIDENTIFIER OUTPUT)
 AS
-DECLARE @v_id_diagnostico INT = null;
+DECLARE @v_id_painting INT = null;
 DECLARE @v_id_file INT = null;
 BEGIN
 --
-    SELECT @v_id_diagnostico = d.id
+    SELECT @v_id_painting = d.id
 	     , @v_id_file = d.id_file
-	  FROM diagnostico d 
+	  FROM painting d 
 	 WHERE d.guid = @i_guid;
     --
-    IF (@v_id_diagnostico IS NULL)
-        RETURN; -- Diagnostico not found, WIP: throw Exception
+    IF (@v_id_painting IS NULL)
+        RETURN; -- Painting not found, WIP: throw Exception
     --
     IF (@v_id_file IS NOT NULL) BEGIN
         UPDATE [file]
@@ -28,9 +28,9 @@ BEGIN
     IF (@v_id_file IS NULL) BEGIN
         INSERT INTO [file](name,bytes,id_tenant) VALUES(@i_name,@i_bytes,1);
 		SELECT @v_id_file = id, @o_file_guid = guid FROM [file] WHERE id = scope_identity();
-        UPDATE diagnostico
+        UPDATE painting
            SET id_file = @v_id_file
-         WHERE id = @v_id_diagnostico
+         WHERE id = @v_id_painting
         ;
     END;
 --
