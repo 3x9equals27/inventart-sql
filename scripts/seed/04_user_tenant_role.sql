@@ -21,3 +21,16 @@ select u.id as id_user
  where r.name = 'role:disabled'
    and utr.id is null
 ;
+
+insert into user_tenant_role(id_user, id_tenant, id_role)
+select u.id as id_user
+     , t.id as id_tenant
+	 , r.id as id_role
+  from role as r
+ inner join user_ as u on u.email = '3x9equals27@gmail.com'
+ inner join tenant as t on t.code = 'FBAUL'
+  left join user_tenant_role utr on utr.id_user = u.id and utr.id_tenant = t.id and utr.id_role = r.id
+ where r.name = 'role:curator'
+   and utr.id is null
+;
+
