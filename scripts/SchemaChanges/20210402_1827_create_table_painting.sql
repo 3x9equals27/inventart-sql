@@ -8,7 +8,9 @@ IF (NOT EXISTS (SELECT 1 FROM _provision WHERE script_name = @v_script_name)) BE
 	, guid UNIQUEIDENTIFIER DEFAULT NEWID()
 	, created DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 	, updated DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
-	, description NVARCHAR(200)
+	, name NVARCHAR(500)
+	, author NVARCHAR(500)
+	, description NVARCHAR(500)
 	, id_file INT NULL FOREIGN KEY REFERENCES [file](id)
 	);
 --    

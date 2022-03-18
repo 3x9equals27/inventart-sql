@@ -2,6 +2,8 @@ CREATE OR ALTER PROCEDURE sp_painting_list_all(@i_tenant NVARCHAR(10))
 AS
 BEGIN
     SELECT d.guid
+		 , d.name
+		 , d.author
          , d.description
          , CASE WHEN d.id_file IS NULL THEN 0 ELSE 1 END AS has_file
          , f.guid AS file_guid
