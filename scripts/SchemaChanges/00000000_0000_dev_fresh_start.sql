@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS tenant;
 DROP TABLE IF EXISTS user_;
 DROP TABLE IF EXISTS role;
 DROP PROCEDURE IF exists sp_painting_list_all;
+DROP PROCEDURE IF exists sp_painting_create;
+DROP PROCEDURE IF exists sp_painting_update;
 DROP PROCEDURE IF exists sp_trigger_set_timestamp;
 DROP PROCEDURE IF exists sp_user_for_login;
 DROP PROCEDURE IF exists sp_user_info;
