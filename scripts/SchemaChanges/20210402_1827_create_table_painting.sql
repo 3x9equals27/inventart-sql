@@ -12,6 +12,7 @@ IF (NOT EXISTS (SELECT 1 FROM _provision WHERE script_name = @v_script_name)) BE
 	, author NVARCHAR(500)
 	, description NVARCHAR(500)
 	, id_file INT NULL FOREIGN KEY REFERENCES [file](id)
+	, CONSTRAINT UK_painting_TNA UNIQUE(id_tenant, name, author)
 	);
 --    
     INSERT INTO _provision(script_name) VALUES(@v_script_name);
